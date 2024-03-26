@@ -35,6 +35,11 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
+    public function posts():HasMany
+    {
+        return $this->HasMany(Post::class);
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *
