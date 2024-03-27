@@ -13,10 +13,18 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
 
         return Inertia::render('Posts/Index', [
-            'posts' => $posts
+            'posts' => Post::query()
+                ->when(Request::input('search'), function($query, $search){
+                    $query->where('title', 'like', "%{$search}%");
+                })
+                ->paginate(15)
+                ->withQueryString()
+                ->through(fn($post)=>[
+                    'title' => $post->title
+                ]),
+            'filter' => Request::only(['search'])
         ]);
     }
 
