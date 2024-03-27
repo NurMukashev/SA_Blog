@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
+use App\Http\Requests\PostRequest;
+use App\Models\Category;
 
 
 class PostController extends Controller
@@ -39,15 +42,29 @@ class PostController extends Controller
      */
     public function create()
     {
-        return inertia('Posts/Create');
+        $categories = Category::all();
+        return inertia('Posts/Create', compact('categories'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PostRequest $request)
     {
+        $post = new Post();
+        $post->title = $request->title;
+        $post->text = $request->text;
+        $post->category_id = $request->category_id;
 
+        if(Auth::check()){
+            $post->user_id = Auth::id();
+        }
+
+        $post->save();
+
+        return to_route('posts')->with('message', 'Пост добавлен');
+
+        //dd($post);
     }
 
     /**

@@ -23,7 +23,7 @@ class PostRequest extends FormRequest
     {
         return [
             'title' => 'required',
-            'text' => 'required|min:500'
+            'text' => 'required|min:5'
         ];
     }
 }
