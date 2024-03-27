@@ -38,8 +38,11 @@ import {ref, watch} from "vue";
         <tbody>
             <tr v-for="post in posts.data">
                 <td>{{ post.id }}</td>
-                <td>{{ post.id }}</td>
-                <td>{{ post.id }}</td>
+                <td>{{ post.category }}</td>
+                <td>{{ post.author }}
+                    <Link :href="route('posts.edit', post.id)">изменить</Link>
+                    <Link :href="route('posts.destroy', post.id)">удалить</Link>
+                </td>
                 <td>{{ post.title }}</td>
                 <td>{{ post.text }}</td>
                 <td>{{ post.created_at }}</td>

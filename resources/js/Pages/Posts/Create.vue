@@ -6,7 +6,7 @@
 
     <form @submit.prevent="submit">
         <input v-model="title" type="text" placeholder="Title" />
-        <div v-if="errors.name">{{ errors.name }}</div>
+        <div v-if="errors.title">{{ errors.title }}</div>
 
         <textarea v-model="text" id="" cols="30" rows="10"></textarea>
         <div v-if="errors.text">{{ errors.text }}</div>

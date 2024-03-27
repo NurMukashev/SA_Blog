@@ -23,7 +23,12 @@ class PostController extends Controller
                 ->paginate(15)
                 ->withQueryString()
                 ->through(fn($post)=>[
-                    'title' => $post->title
+                    'id' => $post->id,
+                    'category' =>$post->category->name,
+                    'author' => $post->user->name,
+                    'title' => $post->title,
+                    'text' => $post->text,
+                    'created_at' => $post->created_at
                 ]),
             'filters' => Request::only(['search'])
         ]);
@@ -42,7 +47,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**
@@ -58,7 +63,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('Posts/Edit', compact($post));
     }
 
     /**
