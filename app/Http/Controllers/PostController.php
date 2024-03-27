@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
+
 
 class PostController extends Controller
 {
@@ -24,7 +25,7 @@ class PostController extends Controller
                 ->through(fn($post)=>[
                     'title' => $post->title
                 ]),
-            'filter' => Request::only(['search'])
+            'filters' => Request::only(['search'])
         ]);
     }
 

@@ -1,8 +1,29 @@
+<script setup>
+import {Head, Link, router} from "@inertiajs/vue3";
+import {ref, watch} from "vue";
+
+
+    const props = defineProps({
+        posts: Object,
+        filters: Object
+    })
+
+    let search = ref(props.filters.search);
+
+
+    watch(search, value => {
+        router.get('/posts', {search:value}, {
+            preserveState: true,
+            replace: true
+        });
+    });
+</script>
 <template>
     <Head title="Все посты" />
     <h2>Все посты</h2>
 
     <Link :href="route('posts.create')">создать</Link>
+    <input v-model="search" type="text" placeholder="поиск">
     <table>
         <thead>
             <tr>
@@ -15,7 +36,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="post in posts">
+            <tr v-for="post in posts.data">
                 <td>{{ post.id }}</td>
                 <td>{{ post.id }}</td>
                 <td>{{ post.id }}</td>
@@ -26,23 +47,6 @@
         </tbody>
     </table>
 </template>
-
-<script>
-import {Head, Link} from "@inertiajs/vue3";
-
-export default {
-    name: "Index",
-
-    components: {
-        Head,
-        Link
-    },
-
-    props:{
-        posts: Object,
-    }
-}
-</script>
 
 <style scoped>
 
