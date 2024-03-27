@@ -17,9 +17,9 @@ class DatabaseSeeder extends Seeder
     {
         //\App\Models\User::factory(50)->create();
 
-        //$this->call(RoleSeeder::class);
-        //Category::factory(10)->create();
-        User::factory(50)->has(Post::factory(150))->create(); //вместо 150 надо было 3 написать
+        $this->call(RoleSeeder::class);
+        Category::factory(10)->create();
+        User::factory(50)->has(Post::factory(3))->create();
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',

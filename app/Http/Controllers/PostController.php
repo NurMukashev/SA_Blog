@@ -27,7 +27,7 @@ class PostController extends Controller
                 ->withQueryString()
                 ->through(fn($post)=>[
                     'id' => $post->id,
-                    'category' =>$post->category->name,
+                    //'category' =>$post->category->name,
                     'author' => $post->user->name,
                     'title' => $post->title,
                     'text' => $post->text,
@@ -62,7 +62,7 @@ class PostController extends Controller
 
         $post->save();
 
-        return to_route('posts')->with('message', 'Пост добавлен');
+        return to_route('posts.index')->with('message', 'Пост добавлен');
 
         //dd($post);
     }
@@ -80,15 +80,31 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('Posts/Edit', compact($post));
+        $categories = Category::all();
+        return Inertia::render('Posts/Edit', [
+            'post' => $post,
+            'categories' => $categories
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Post $post)
+    public function update(PostRequest $request, Post $post)
     {
-        //
+        //dd($request);
+
+        $post->title = $request->title;
+        $post->text = $request->text;
+        $post->category_id = $request->category_id;
+
+        $success = $post->save();
+
+        if($success){
+            return to_route('posts.index')->with('message', 'Пост обновлен');
+        }else{
+            return to_route('posts.index')->with('message', 'Не удалось обновить пост');
+        }
     }
 
     /**
@@ -96,6 +112,12 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $success = $post->delete();
+
+        if($success){
+            return to_route('posts.index')->with('message', 'Пост удален');
+        }else{
+            return to_route('posts.index')->with('message', 'Невозможно удалить пост');
+        }
     }
 }
