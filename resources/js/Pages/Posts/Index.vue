@@ -6,7 +6,8 @@ import Layout from "@/Pages/Layout.vue";
 
     const props = defineProps({
         posts: Object,
-        filters: Object
+        filters: Object,
+        current_user: Number
     })
 
     let search = ref(props.filters.search);
@@ -38,7 +39,7 @@ import Layout from "@/Pages/Layout.vue";
                 <span class="italic">Автор: {{ post.author }}</span>
             </div>
             <div>{{ post.text }}</div>
-            <div class="flex justify-end mb-2">
+            <div v-if="post.user_id === current_user" class="flex justify-end mb-2">
                 <Link :href="route('posts.edit', post.id)" class="button-sa bg-green-600 py-0">изменить</Link>
                 <Link :href="route('posts.destroy', post.id)" class="button-sa ml-2 bg-red-600 py-0">удалить</Link>
             </div>

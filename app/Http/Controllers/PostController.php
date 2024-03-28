@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 use App\Http\Requests\PostRequest;
 use App\Models\Category;
+use Illuminate\Support\Facades\Gate;
 
 
 class PostController extends Controller
@@ -29,11 +30,13 @@ class PostController extends Controller
                     'id' => $post->id,
                     //'category' =>$post->category->name,
                     'author' => $post->user->name,
+                    'user_id' => $post->user_id,
                     'title' => $post->title,
                     'text' => $post->text,
                     'created_at' => $post->created_at
                 ]),
-            'filters' => Request::only(['search'])
+            'filters' => Request::only(['search']),
+            'current_user' => Auth::id()
         ]);
     }
 
@@ -72,6 +75,10 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        if(Gate::denies('update-post')){
+            return to_route('posts.index')->with('message', 'У вас нет прав');
+        }
+
         return Inertia::render('Posts/Show', [
             'post' => $post
         ]);
@@ -114,6 +121,12 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        if(Gate::denies('destroy-post')){
+
+            return to_route('posts.index')->with('message', 'У вас нет прав');
+
+        }
+
         $success = $post->delete();
 
         if($success){
