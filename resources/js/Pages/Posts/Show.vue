@@ -1,5 +1,6 @@
 <script setup>
     import {Head} from "@inertiajs/vue3";
+    import Layout from "@/Pages/Layout.vue";
 
     const props = defineProps({
         post:Object
@@ -15,12 +16,14 @@
         </title>
     </Head>
 
-    <h2>{{ post.title }}</h2>
-    <div>{{ post.text }}</div>
+    <layout>
+        <h2>{{ post.title }}</h2>
+        <div>{{ post.text }}</div>
 
-    <div> <!--для комментариев-->
+        <div> <!--для комментариев-->
 
-    </div>
+        </div>
+    </layout>
 </template>
 
 <style scoped>

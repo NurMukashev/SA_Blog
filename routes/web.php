@@ -36,5 +36,10 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('/posts', \App\Http\Controllers\PostController::class);
+Route::resource('/categories', \App\Http\Controllers\CategoryController::class);
+
+Route::get('/users', function(){
+    return true;
+})->name('users');
 
 require __DIR__.'/auth.php';

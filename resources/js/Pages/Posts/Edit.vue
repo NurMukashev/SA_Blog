@@ -1,5 +1,6 @@
 <script setup>
 import {Head, Link, useForm, router} from "@inertiajs/vue3";
+import Layout from "@/Pages/Layout.vue";
 
     const props = defineProps({
         post: Object,
@@ -26,26 +27,28 @@ import {Head, Link, useForm, router} from "@inertiajs/vue3";
 <template>
     <Head title="Изменение поста" />
 
-    <h2>Изменение поста</h2>
-    <Link :href="route('posts.index')">назад</Link>
+    <layout>
+        <h2>Изменение поста</h2>
+        <Link :href="route('posts.index')">назад</Link>
 
-    <form @submit.prevent="submit">
+        <form @submit.prevent="submit">
 
-        <input v-model="form.title" type="text" placeholder="Title" />
-        <div v-if="errors.title">{{ errors.title }}</div>
+            <input v-model="form.title" type="text" placeholder="Title" />
+            <div v-if="errors.title">{{ errors.title }}</div>
 
-        <textarea v-model="form.text" id="" cols="30" rows="10"></textarea>
-        <div v-if="errors.text">{{ errors.text }}</div>
+            <textarea v-model="form.text" id="" cols="30" rows="10"></textarea>
+            <div v-if="errors.text">{{ errors.text }}</div>
 
-        <select v-model="form.category_id">
-            <option value="">Выберите категорию</option>
-            <option v-for="category in categories" :selected="category.id == form.category_id" :value="category.id">{{ category.name }}</option>
+            <select v-model="form.category_id">
+                <option value="">Выберите категорию</option>
+                <option v-for="category in categories" :selected="category.id == form.category_id" :value="category.id">{{ category.name }}</option>
 
-        </select>
+            </select>
 
-        <button type="submit" >изменить</button>
+            <button type="submit" >изменить</button>
 
-    </form>
+        </form>
+    </layout>
 </template>
 
 <style scoped>
