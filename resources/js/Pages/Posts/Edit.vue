@@ -28,24 +28,27 @@ import Layout from "@/Pages/Layout.vue";
     <Head title="Изменение поста" />
 
     <layout>
-        <h2>Изменение поста</h2>
-        <Link :href="route('posts.index')">назад</Link>
+        <h2 class="h2-sa">Изменение поста</h2>
+        <Link :href="route('posts.index')" class="hover:underline">назад</Link>
 
-        <form @submit.prevent="submit">
+        <form @submit.prevent="submit" class="flex flex-col justify-between">
 
-            <input v-model="form.title" type="text" placeholder="Title" />
-            <div v-if="errors.title">{{ errors.title }}</div>
+            <div class="mb-4">
+                <input v-model="form.title" type="text" placeholder="Title" class="w-full" />
+                <div v-if="errors.title">{{ errors.title }}</div>
+            </div>
 
-            <textarea v-model="form.text" id="" cols="30" rows="10"></textarea>
-            <div v-if="errors.text">{{ errors.text }}</div>
+            <div class="mb-4">
+                <textarea v-model="form.text" id="" cols="30" rows="10" class="w-full"></textarea>
+                <div v-if="errors.text">{{ errors.text }}</div>
+            </div>
 
-            <select v-model="form.category_id">
+            <select v-model="form.category_id" class="mb-4">
                 <option value="">Выберите категорию</option>
                 <option v-for="category in categories" :selected="category.id == form.category_id" :value="category.id">{{ category.name }}</option>
-
             </select>
 
-            <button type="submit" >изменить</button>
+            <button type="submit" class="button-sa">изменить</button>
 
         </form>
     </layout>

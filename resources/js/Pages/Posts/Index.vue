@@ -24,11 +24,11 @@ import Layout from "@/Pages/Layout.vue";
 
     <layout>
 
-        <h2 class="font-bold text-lg mx-auto text-center uppercase mt-2 mb-6">Все посты</h2>
+        <h2 class="h2-sa">Все посты</h2>
 
         <div class="flex justify-between mb-8 max-w-4xl mx-auto">
             <input v-model="search" type="text" placeholder="поиск">
-            <Link :href="route('posts.create')" class="bg-gray-400 text-white px-4 py-1 text-lg leading-loose hover:bg-gray-700">создать</Link>
+            <Link :href="route('posts.create')" class="button-sa">создать</Link>
         </div>
 
         <section v-for="post in posts.data" class="max-w-4xl mx-auto mb-6 border-b-4 border-b-black">
@@ -38,6 +38,10 @@ import Layout from "@/Pages/Layout.vue";
                 <span class="italic">Автор: {{ post.author }}</span>
             </div>
             <div>{{ post.text }}</div>
+            <div class="flex justify-end mb-2">
+                <Link :href="route('posts.edit', post.id)" class="button-sa bg-green-600 py-0">изменить</Link>
+                <Link :href="route('posts.destroy', post.id)" class="button-sa ml-2 bg-red-600 py-0">удалить</Link>
+            </div>
         </section>
 
         <!--<table>   Хотел в начале в виде таблицы
