@@ -43,7 +43,7 @@ import {ref, watch} from "vue";
                     <Link :href="route('posts.edit', post.id)">изменить</Link>
                     <Link :href="route('posts.destroy', post.id)">удалить</Link>
                 </td>
-                <td>{{ post.title }}</td>
+                <td><Link :href="route('posts.show', post.id)">{{ post.title }}</Link></td>
                 <td>{{ post.text }}</td>
                 <td>{{ post.created_at }}</td>
             </tr>
