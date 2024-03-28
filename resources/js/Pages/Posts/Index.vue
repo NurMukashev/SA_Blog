@@ -20,15 +20,27 @@ import Layout from "@/Pages/Layout.vue";
     });
 </script>
 <template>
-    <Head title="Все посты" />
+    <Head title="Все посты"/>
 
     <layout>
 
-        <h2>Все посты</h2>
+        <h2 class="font-bold text-lg mx-auto text-center uppercase mt-2 mb-6">Все посты</h2>
 
-        <Link :href="route('posts.create')">создать</Link>
-        <input v-model="search" type="text" placeholder="поиск">
-        <table>
+        <div class="flex justify-between mb-8 max-w-4xl mx-auto">
+            <input v-model="search" type="text" placeholder="поиск">
+            <Link :href="route('posts.create')" class="bg-gray-400 text-white px-4 py-1 text-lg leading-loose hover:bg-gray-700">создать</Link>
+        </div>
+
+        <section v-for="post in posts.data" class="max-w-4xl mx-auto mb-6 border-b-4 border-b-black">
+            <h2 class="font-bold hover:underline"><Link :href="route('posts.show', post.id)">{{ post.title }}</Link></h2>
+            <div class="flex justify-between">
+                <span class="underline">Категория: {{ post.category }}</span>
+                <span class="italic">Автор: {{ post.author }}</span>
+            </div>
+            <div>{{ post.text }}</div>
+        </section>
+
+        <!--<table>   Хотел в начале в виде таблицы
             <thead>
                 <tr>
                     <th>id</th>
@@ -52,7 +64,7 @@ import Layout from "@/Pages/Layout.vue";
                     <td>{{ post.created_at }}</td>
                 </tr>
             </tbody>
-        </table>
+        </table>-->
 
     </layout>
 
