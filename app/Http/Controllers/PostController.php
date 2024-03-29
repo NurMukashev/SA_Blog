@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
@@ -24,11 +25,11 @@ class PostController extends Controller
                 ->when(Request::input('search'), function($query, $search){
                     $query->where('title', 'like', "%{$search}%");
                 })
-                ->paginate(15)
+                ->orderBy('id', 'desc')
                 ->withQueryString()
-                ->through(fn($post)=>[
+                ->map(fn($post)=>[
                     'id' => $post->id,
-                    //'category' =>$post->category->name,
+                    'category' =>$post->category->name,
                     'author' => $post->user->name,
                     'user_id' => $post->user_id,
                     'title' => $post->title,
@@ -75,12 +76,22 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        if(Gate::denies('update-post')){
-            return to_route('posts.index')->with('message', 'У вас нет прав');
-        }
+        $comments = 1;
 
         return Inertia::render('Posts/Show', [
-            'post' => $post
+            'post' => $post,
+            'post_author' => $post->user ? $post->user->name : null,
+            'post_category' => $post->category ? $post->category->name : null,
+            'comments' => Comment::where('post_id', $post->id)
+                ->orderBy('id', 'desc')
+                ->get()
+                ->map(fn($comment)=>[
+                    'id' => $comment->id,
+                    'author' => $comment->user->name,
+                    'text' => $comment->text,
+                    'created_at' => $comment->created_at,
+                ]),
+            'auth_user' => Auth::user()
         ]);
     }
 
@@ -89,6 +100,10 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        if(Gate::denies('update-post', $post)){
+            return to_route('posts.index')->with('message', 'У вас нет прав');
+        }
+
         $categories = Category::all();
         return Inertia::render('Posts/Edit', [
             'post' => $post,

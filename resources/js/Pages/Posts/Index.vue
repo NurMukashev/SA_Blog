@@ -35,7 +35,7 @@ import Layout from "@/Pages/Layout.vue";
         <section v-for="post in posts.data" class="max-w-4xl mx-auto mb-6 border-b-4 border-b-black">
             <h2 class="font-bold hover:underline"><Link :href="route('posts.show', post.id)">{{ post.title }}</Link></h2>
             <div class="flex justify-between">
-                <span class="underline">Категория: {{ post.category }}</span>
+                <span v-if="post.category" class="underline">Категория: {{ post.category }}</span>, <span>id: {{ post.id }}</span>
                 <span class="italic">Автор: {{ post.author }}</span>
             </div>
             <div>{{ post.text }}</div>

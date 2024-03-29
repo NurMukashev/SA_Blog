@@ -17,6 +17,9 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
+
+    return redirect()->route('posts.index');
+
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
@@ -37,6 +40,10 @@ Route::middleware('auth')->group(function () {
 
 Route::resource('/posts', \App\Http\Controllers\PostController::class);
 Route::resource('/categories', \App\Http\Controllers\CategoryController::class);
+
+//Route::resource('comments', \App\Http\Controllers\CommentController::class);
+//Route::get('/comments/{post_id}', [\App\Http\Controllers\CommentController::class, 'index']);
+Route::post('/comments', [\App\Http\Controllers\CommentController::class, 'store']);
 
 Route::get('/users', function(){
     return true;

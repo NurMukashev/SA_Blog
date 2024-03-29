@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use App\Models\Comment;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,6 +21,8 @@ class DatabaseSeeder extends Seeder
         $this->call(RoleSeeder::class);
         Category::factory(10)->create();
         User::factory(50)->has(Post::factory(3))->create();
+
+        Comment::factory(10)->create();
 
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',

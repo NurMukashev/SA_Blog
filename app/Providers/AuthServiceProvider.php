@@ -26,7 +26,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         Gate::define('update-post', function(User $user, Post $post){
 
-            if($user->role == 'moderator'){
+            if($user->role == 'redactor'){
                 return true;
             }
 
